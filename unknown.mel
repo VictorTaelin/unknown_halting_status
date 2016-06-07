@@ -1,0 +1,47 @@
+-- Receives fix and a natural, returns the number of
+-- recursive calls until the collatz function halts.
+collatz fix n = (fix go n)
+
+    -- The recursive search
+    go go n = (succ (even_odd_or_leq_one n even odd leq1))
+        even = (go go (half n))
+        odd  = (go go (succ (mul n 3)))
+        leq1 = 0
+
+    -- Tests if number is even, odd, or <= 1
+    even_odd_or_leq_one n = (n succ zero (a b c d -> d))
+        succ pred eoz = (pred (eoz (a b c d -> b) (a b c d -> a) (a b c d -> a) (a b c d -> c)))
+        zero eoz = (eoz (a b c -> a) (a b c -> b) (a b c -> c) (a b c -> c))
+
+    -- Half of a natural number
+    half n f x = (n succ zero (t -> (t (x -> x) f)))
+        succ pred fns = (fns (a b -> (a (pred (t -> (t b a))))))
+        zero fns = x
+
+    -- Successor of a natural number
+    succ nat succ zero = (succ (nat succ zero))
+
+    -- Multiplication of two natural numbers
+    mul a b succ = (a (b succ))
+
+-- Mu combinator for recursion
+U = (x -> (x x))
+
+-- Just a test: running `mel test` outputs all
+-- collatz numbers from 0 til 8.
+test = (map (collatz U) (range 8))
+
+-- Collatz of all numbers from 0 til 2^256.
+-- Note: since this program has no normal form, I normalized
+-- pieces of the code separately, joined them in this term,
+-- and then asked Caramel to give me the normal form of this
+-- program without further normalizations, using the command:
+-- `mel my_program.blc?`
+unknown_halting_status = (map (collatz U) (range (((2 2) (2 2)) 2)))
+    U = (x -> (x x))
+    collatz = [(c d e f -> (e (d (g h -> (g (h (i j k l -> j) (i j k l -> i) (i j k l -> i) (i j k l -> k)))) ((h i j -> h),(h i j -> i),(h -> 0),(h -> 0)) (g h -> 0) (c c (g h -> (d (i -> ((k l -> (k (i (l,k)))))) (i -> h) ((j -> j),g)))) (c c (g h -> (g (d (i -> (g (g (g i)))) h)))) 0 e f)))]
+
+-- Some simple list functions, here in normal form because
+-- I was too lazy to copy all the dependencies (sorry).
+range = ((b c d e -> (d c (b (f g -> (f (c f g))) d e))),(b -> 0),0)
+map = (a b c -> (b (d -> (c (a d)))))
